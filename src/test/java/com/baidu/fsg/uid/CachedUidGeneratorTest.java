@@ -57,13 +57,20 @@ public class CachedUidGeneratorTest {
      */
     @Test
     public void testParallelGenerate() throws InterruptedException, IOException {
-        AtomicInteger control = new AtomicInteger(-1);
-        Set<Long> uidSet = new ConcurrentSkipListSet<>();
+        final AtomicInteger control = new AtomicInteger(-1);
+        final Set<Long> uidSet = new ConcurrentSkipListSet<>();
 
         // Initialize threads
         List<Thread> threadList = new ArrayList<>(THREADS);
         for (int i = 0; i < THREADS; i++) {
-            Thread thread = new Thread(() -> workerRun(uidSet, control));
+            //jdk1.8 --> 1.7
+            //Thread thread = new Thread(() -> workerRun(uidSet, control));
+            Thread thread = new Thread(){
+                @Override
+                public void run(){
+                   workerRun(uidSet, control);
+                }
+            };
             thread.setName("UID-generator-" + i);
 
             threadList.add(thread);
@@ -87,7 +94,9 @@ public class CachedUidGeneratorTest {
      */
     private void workerRun(Set<Long> uidSet, AtomicInteger control) {
         for (;;) {
-            int myPosition = control.updateAndGet(old -> (old == SIZE ? SIZE : old + 1));
+            //jdk1.8-->1.7
+            //int myPosition = control.updateAndGet(old -> (old == SIZE ? SIZE : old + 1));
+            int myPosition = control.get() == SIZE? control.get():control.incrementAndGet();
             if (myPosition == SIZE) {
                 return;
             }

@@ -1,14 +1,6 @@
 package com.baidu.fsg.uid;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Resource;
-
+import com.baidu.fsg.uid.impl.DefaultUidGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,15 +8,21 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.baidu.fsg.uid.impl.DefaultUidGenerator;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Test for {@link DefaultUidGenerator}
- * 
+ *
  * @author yutianbao
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:uid/default-uid-spring.xml" })
+@ContextConfiguration(locations = {"classpath:uid/default-uid-spring.xml"})
 public class DefaultUidGeneratorTest {
     private static final int SIZE = 100000; // 10w
     private static final boolean VERBOSE = true;
@@ -50,18 +48,23 @@ public class DefaultUidGeneratorTest {
 
     /**
      * Test for parallel generate
-     * 
+     *
      * @throws InterruptedException
      */
     @Test
     public void testParallelGenerate() throws InterruptedException {
-        AtomicInteger control = new AtomicInteger(-1);
-        Set<Long> uidSet = new ConcurrentSkipListSet<>();
+        final AtomicInteger control = new AtomicInteger(-1);
+        final Set<Long> uidSet = new ConcurrentSkipListSet<>();
 
         // Initialize threads
         List<Thread> threadList = new ArrayList<>(THREADS);
         for (int i = 0; i < THREADS; i++) {
-            Thread thread = new Thread(() -> workerRun(uidSet, control));
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    workerRun(uidSet, control);
+                }
+            };
             thread.setName("UID-generator-" + i);
 
             threadList.add(thread);
@@ -84,8 +87,10 @@ public class DefaultUidGeneratorTest {
      * Worker run
      */
     private void workerRun(Set<Long> uidSet, AtomicInteger control) {
-        for (;;) {
-            int myPosition = control.updateAndGet(old -> (old == SIZE ? SIZE : old + 1));
+        for (; ; ) {
+            //jdk1.8-->1.7
+            //int myPosition = control.updateAndGet(old -> (old == SIZE ? SIZE : old + 1));
+            int myPosition = control.get() == SIZE ? control.get() : control.incrementAndGet();
             if (myPosition == SIZE) {
                 return;
             }
