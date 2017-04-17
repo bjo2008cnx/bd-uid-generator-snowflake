@@ -90,7 +90,8 @@ public class DefaultUidGeneratorTest {
         for (; ; ) {
             //jdk1.8-->1.7
             //int myPosition = control.updateAndGet(old -> (old == SIZE ? SIZE : old + 1));
-            int myPosition = control.get() == SIZE ? control.get() : control.incrementAndGet();
+            int currentValue = control.get();
+            int myPosition = currentValue == SIZE ? currentValue : control.incrementAndGet();
             if (myPosition == SIZE) {
                 return;
             }
