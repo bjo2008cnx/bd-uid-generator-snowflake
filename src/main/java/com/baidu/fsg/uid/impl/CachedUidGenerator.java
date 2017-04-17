@@ -15,21 +15,17 @@
  */
 package com.baidu.fsg.uid.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.baidu.fsg.uid.BitsAllocator;
+import com.baidu.fsg.uid.UidGenerator;
+import com.baidu.fsg.uid.buffer.*;
+import com.baidu.fsg.uid.exception.UidGenerateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.Assert;
 
-import com.baidu.fsg.uid.BitsAllocator;
-import com.baidu.fsg.uid.UidGenerator;
-import com.baidu.fsg.uid.buffer.BufferPaddingExecutor;
-import com.baidu.fsg.uid.buffer.RejectedPutBufferHandler;
-import com.baidu.fsg.uid.buffer.RejectedTakeBufferHandler;
-import com.baidu.fsg.uid.buffer.RingBuffer;
-import com.baidu.fsg.uid.exception.UidGenerateException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a cached implementation of {@link UidGenerator} extends
@@ -125,7 +121,15 @@ public class CachedUidGenerator extends DefaultUidGenerator implements Disposabl
 
         // initialize RingBufferPaddingExecutor
         boolean usingSchedule = (scheduleInterval != null);
-        this.bufferPaddingExecutor = new BufferPaddingExecutor(ringBuffer, this::nextIdsForOneSecond, usingSchedule);
+        //jdk 1.8-->1.7
+        //this.bufferPaddingExecutor = new BufferPaddingExecutor(ringBuffer, this::nextIdsForOneSecond, usingSchedule);
+        BufferedUidProvider uidProvider= new BufferedUidProvider() {
+            @Override
+            public List<Long> provide(long momentInSecond) {
+                return nextIdsForOneSecond(momentInSecond);
+            }
+        };
+        this.bufferPaddingExecutor = new BufferPaddingExecutor(ringBuffer,uidProvider, usingSchedule);
         if (usingSchedule) {
             bufferPaddingExecutor.setScheduleInterval(scheduleInterval);
         }
