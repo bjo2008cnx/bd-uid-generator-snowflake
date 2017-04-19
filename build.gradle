@@ -1,0 +1,34 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.baidu.fsg'
+version = '1.0.0-SNAPSHOT'
+
+description = "UID-Generator"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile group: 'org.springframework', name: 'spring-core', version:'4.2.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version:'4.2.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:'4.2.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'4.2.5.RELEASE'
+    compile group: 'org.mybatis', name: 'mybatis', version:'3.2.3'
+    compile group: 'org.mybatis', name: 'mybatis-spring', version:'1.2.4'
+    compile group: 'commons-collections', name: 'commons-collections', version:'3.2.2'
+    compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.1.3'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.7'
+    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version:'1.7.7'
+    testCompile group: 'junit', name: 'junit', version:'4.10'
+    testCompile group: 'org.springframework', name: 'spring-test', version:'4.2.5.RELEASE'
+    testCompile group: 'mysql', name: 'mysql-connector-java', version:'5.1.18'
+    testCompile group: 'com.alibaba', name: 'druid', version:'1.0.19'
+}
