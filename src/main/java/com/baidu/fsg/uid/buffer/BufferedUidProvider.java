@@ -22,7 +22,7 @@ import java.util.List;
  * 
  * @author yutianbao
  */
-@FunctionalInterface
+//@FunctionalInterface
 public interface BufferedUidProvider {
 
     /**

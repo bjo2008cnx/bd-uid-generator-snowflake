@@ -21,7 +21,7 @@ package com.baidu.fsg.uid.buffer;
  * 
  * @author yutianbao
  */
-@FunctionalInterface
+//@FunctionalInterface
 public interface RejectedPutBufferHandler {
 
     /**
