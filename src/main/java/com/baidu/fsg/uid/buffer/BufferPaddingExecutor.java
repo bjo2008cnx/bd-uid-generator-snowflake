@@ -29,13 +29,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Represents an executor for padding {@link RingBuffer}<br>
- * There are two kinds of executors: one for scheduled padding, the other for padding immediately.
+ * 填充器，用于填充 {@link RingBuffer}<br>
+ * 有两种填充器，一种是即时填充，另一种是计划填充
  *
  * @author yutianbao
  */
 public class BufferPaddingExecutor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RingBuffer.class);
+    private static Logger log = LoggerFactory.getLogger(RingBuffer.class);
 
     /**
      * Constants
@@ -148,7 +148,7 @@ public class BufferPaddingExecutor {
     }
 
     /**
-     * Padding buffer in the thread pool
+     * 异步填充
      */
     public void asyncPadding() {
         //jdk 1.8-->1.7
@@ -162,18 +162,18 @@ public class BufferPaddingExecutor {
     }
 
     /**
-     * Padding buffer fill the slots until to catch the cursor
+     * 填充buffer
      */
     public void paddingBuffer() {
-        LOGGER.info("Ready to padding buffer lastSecond:{}. {}", lastSecond.get(), ringBuffer);
+        log.info("Ready to padding buffer lastSecond:{}. {}", lastSecond.get(), ringBuffer);
 
-        // is still running
+        // 校验运行状态
         if (!running.compareAndSet(false, true)) {
-            LOGGER.info("Padding buffer is still running. {}", ringBuffer);
+            log.info("Padding buffer is still running. {}", ringBuffer);
             return;
         }
 
-        // fill the rest slots until to catch the cursor
+        // 填充buffer
         boolean isFullRingBuffer = false;
         while (!isFullRingBuffer) {
             List<Long> uidList = uidProvider.provide(lastSecond.incrementAndGet());
@@ -187,7 +187,7 @@ public class BufferPaddingExecutor {
 
         // not running now
         running.compareAndSet(true, false);
-        LOGGER.info("End to padding buffer lastSecond:{}. {}", lastSecond.get(), ringBuffer);
+        log.info("End to padding buffer lastSecond:{}. {}", lastSecond.get(), ringBuffer);
     }
 
     /**
