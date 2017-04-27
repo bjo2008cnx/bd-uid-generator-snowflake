@@ -45,7 +45,7 @@ public class CachedUidGenerator extends DefaultUidGenerator implements Disposabl
     private static  Logger log = LoggerFactory.getLogger(CachedUidGenerator.class);
     private static final int DEFAULT_BOOST_POWER = 3; //?
 
-    /** Spring properties */
+    /** Spring 属性 */
     private int boostPower = DEFAULT_BOOST_POWER;
     private int paddingFactor = RingBuffer.DEFAULT_PADDING_PERCENT;
     private Long scheduleInterval;
@@ -59,8 +59,11 @@ public class CachedUidGenerator extends DefaultUidGenerator implements Disposabl
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        super.afterPropertiesSet(); // 初始化workerId & bitsAllocator
-        this.initRingBuffer(); // 初始化 RingBuffer & RingBufferPaddingExecutor
+        // 初始化workerId & bitsAllocator
+        super.afterPropertiesSet();
+
+        // 初始化 RingBuffer & RingBufferPaddingExecutor
+        this.initRingBuffer();
         log.info("Initialized RingBuffer successfully.");
     }
     

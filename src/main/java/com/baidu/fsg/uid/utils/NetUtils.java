@@ -91,7 +91,7 @@ public abstract class NetUtils {
         String[] parts = address.split("\\.");
         String second;
         String fourth;
-        if (parts == null || parts.length == 0) {
+        if (parts == null || parts.length < 3) {
             //under Wifi, ip is like:2001:0:9d38:6ab8:1444:650a:8b18:44a6
             String[] partsWifi = address.split(":");
             second = partsWifi[1].substring(0, 1);
