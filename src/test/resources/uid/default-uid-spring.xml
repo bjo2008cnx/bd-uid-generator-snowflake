@@ -10,10 +10,10 @@
         <property name="workerIdAssigner" ref="disposableWorkerIdAssigner"/>
 
         <!-- Specified bits & epoch as your demand. No specified the default value will be used -->
-        <property name="timeBits" value="40"/>
-        <property name="workerBits" value="10"/>
-        <property name="seqBits" value="13"/>
-        <property name="epochStr" value="2016-09-20"/>
+        <property name="timeBits" value="30"/>
+        <property name="workerBits" value="16"/>
+        <property name="seqBits" value="17"/>
+        <property name="epochStr" value="2017-04-20"/>
     </bean>
 
     <!-- Import mybatis config -->

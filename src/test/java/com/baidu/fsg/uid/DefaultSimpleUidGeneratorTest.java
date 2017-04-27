@@ -27,6 +27,7 @@ public class DefaultSimpleUidGeneratorTest {
     @Test
     public void doGenerate() {
         long uid = uidGenerator.getUID();
+        System.out.println(uid);
         String parsedInfo = uidGenerator.parseUID(uid);
 
         // Check UID is positive, and can be parsed
