@@ -4,10 +4,10 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <!-- UID generator -->
-    <bean id="disposableWorkerIdAssigner" class="com.baidu.fsg.uid.worker.LocalWorkIdAssigner"/>
+    <bean id="workerIdAssigner" class="com.baidu.fsg.uid.worker.LocalWorkIdAssigner"/>
 
     <bean id="defaultUidGenerator" class="com.baidu.fsg.uid.impl.DefaultUidGenerator" lazy-init="false">
-        <property name="workerIdAssigner" ref="disposableWorkerIdAssigner"/>
+        <property name="workerIdAssigner" ref="workerIdAssigner"/>
 
         <!-- Specified bits & epoch as your demand. No specified the default value will be used -->
         <property name="timeBits" value="30"/>
@@ -15,8 +15,5 @@
         <property name="seqBits" value="17"/>
         <property name="epochStr" value="2017-04-20"/>
     </bean>
-
-    <!-- Import mybatis config -->
-    <import resource="classpath:/uid/mybatis-spring.xml"/>
 
 </beans>

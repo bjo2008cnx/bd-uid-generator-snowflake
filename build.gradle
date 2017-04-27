@@ -47,11 +47,7 @@ dependencies {
     compile dependency["spring-context"]
     compile dependency["spring-jdbc"]
     compile dependency["spring-test"]
-    compile dependency["spring-web"]
-    compile dependency["spring-webmvc"]
 
-    compile dependency["mybatis"]
-    compile dependency["mybatis-spring"]
     compile dependency["commons-collections"]
     compile dependency["commons-lang"]
     compile dependency["logback-classic"]
