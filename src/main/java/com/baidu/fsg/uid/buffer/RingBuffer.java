@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author yutianbao
  */
 public class RingBuffer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RingBuffer.class);
+    private static final Logger log = LoggerFactory.getLogger(RingBuffer.class);
 
     /**
      * Constants
@@ -184,7 +184,7 @@ public class RingBuffer {
         // trigger padding in an async-mode if reach the threshold
         long currentTail = tail.get();
         if (currentTail - nextCursor < paddingThreshold) {
-            LOGGER.info("Reach the padding threshold:{}. tail:{}, cursor:{}, rest:{}", paddingThreshold, currentTail, nextCursor, currentTail - nextCursor);
+            log.info("Reach the padding threshold:{}. tail:{}, cursor:{}, rest:{}", paddingThreshold, currentTail, nextCursor, currentTail - nextCursor);
             bufferPaddingExecutor.asyncPadding();
         }
 
@@ -218,14 +218,14 @@ public class RingBuffer {
      * Discard policy for {@link RejectedPutBufferHandler}, we just do logging
      */
     protected void discardPutBuffer(RingBuffer ringBuffer, long uid) {
-        LOGGER.warn("Rejected putting buffer for uid:{}. {}", uid, ringBuffer);
+        log.warn("Rejected putting buffer for uid:{}. {}", uid, ringBuffer);
     }
 
     /**
      * Policy for {@link RejectedTakeBufferHandler}, throws {@link RuntimeException} after logging
      */
     protected void exceptionRejectedTakeBuffer(RingBuffer ringBuffer) {
-        LOGGER.warn("Rejected take buffer. {}", ringBuffer);
+        log.warn("Rejected take buffer. {}", ringBuffer);
         throw new RuntimeException("Rejected take buffer. " + ringBuffer);
     }
 

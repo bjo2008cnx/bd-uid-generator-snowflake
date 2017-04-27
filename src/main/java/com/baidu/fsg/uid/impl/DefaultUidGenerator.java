@@ -62,7 +62,7 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
     protected WorkerIdAssigner workerIdAssigner;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         // 初始化 bits allocator
         bitsAllocator = new BitsAllocator(timeBits, workerBits, seqBits);
 
