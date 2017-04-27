@@ -171,8 +171,6 @@ public class RingBuffer {
      * @return UID
      * @throws IllegalStateException if the cursor moved back
      */
-
-
     public long take() {
         // spin get next available cursor
         long currentCursor = cursor.get();

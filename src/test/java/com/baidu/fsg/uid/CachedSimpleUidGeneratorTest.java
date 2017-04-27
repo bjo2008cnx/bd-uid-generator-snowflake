@@ -1,5 +1,6 @@
 package com.baidu.fsg.uid;
 
+import com.baidu.fsg.uid.impl.CachedUidGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
 public class CachedSimpleUidGeneratorTest {
 
     @Resource
-    private UidGenerator uidGenerator;
+    private CachedUidGenerator uidGenerator;
 
     /**
      * Do generating
