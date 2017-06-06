@@ -81,4 +81,28 @@ public abstract class NetUtils {
         return localAddress.getHostAddress();
     }
 
+    /**
+     * 获取第2段和第4段ip，并合并成4位,用于特殊场景下的ip特征
+     *
+     * @return the string local address
+     */
+    public static String getLocalAddressParts() {
+        String address = localAddress.getHostAddress();
+        String[] parts = address.split("\\.");
+        String second;
+        String fourth;
+        if (parts == null || parts.length < 3) {
+            //under Wifi, ip is like:2001:0:9d38:6ab8:1444:650a:8b18:44a6
+            String[] partsWifi = address.split(":");
+            second = partsWifi[1].substring(0, 1);
+            fourth = partsWifi[3].substring(0, 1);
+        } else {
+            second = parts[1];
+            fourth = parts[3];
+        }
+        second = second.length() >= 3 ? second.substring(1, 2) : second;
+        fourth = fourth.length() >= 3 ? fourth.substring(1, 2) : fourth;
+        return second + fourth;
+    }
+
 }
